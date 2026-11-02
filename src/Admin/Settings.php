@@ -393,7 +393,40 @@ final class Settings implements HasHooks
                 </div>
             </form>
 
-            <?php $this->proUpsell()->cards(); ?>
+            <?php
+            $this->renderCompanionCard();
+            $this->proUpsell()->cards();
+            ?>
+        </div>
+        <?php
+    }
+
+    /**
+     * Cross-recommendation card for sister plugins (Swatch - Variation Swatches).
+     * Strictly scoped to the Marks settings screen per WordPress.org Guideline 11.
+     */
+    private function renderCompanionCard(): void
+    {
+        $isSwatchActive = defined('\\Swatch\\VERSION') || (function_exists('is_plugin_active') && (is_plugin_active('swatch/plogins-swatch.php') || is_plugin_active('plogins-swatch/plogins-swatch.php')));
+
+        ?>
+        <div class="card" style="max-width: 800px; margin-top: 24px; padding: 18px 22px;">
+            <h2 class="title" style="margin-top: 0; font-size: 15px;"><?php echo esc_html__('Complementary integration: Swatch - Variation Swatches for WooCommerce', 'plogins-sale-stock-badges'); ?></h2>
+            <p style="color: #50575e; line-height: 1.5;">
+                <?php echo esc_html__('Pair visual product badges with variation color and image swatches on your product pages and catalog cards to deliver a rich visual browsing experience.', 'plogins-sale-stock-badges'); ?>
+            </p>
+            <?php if ($isSwatchActive) : ?>
+                <p style="color: #007017; font-weight: 600; margin-bottom: 0;">
+                    <span class="dashicons dashicons-yes-alt" style="vertical-align: text-bottom;"></span>
+                    <?php echo esc_html__('Swatch is active.', 'plogins-sale-stock-badges'); ?>
+                </p>
+            <?php else : ?>
+                <p style="margin-bottom: 0;">
+                    <a href="<?php echo esc_url(admin_url('plugin-install.php?s=' . rawurlencode('Swatch - Variation Swatches for WooCommerce') . '&tab=search&type=term')); ?>" class="button button-secondary">
+                        <?php echo esc_html__('Explore Swatch Variation Swatches', 'plogins-sale-stock-badges'); ?> &rarr;
+                    </a>
+                </p>
+            <?php endif; ?>
         </div>
         <?php
     }
