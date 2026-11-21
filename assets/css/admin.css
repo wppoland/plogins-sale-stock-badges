@@ -3,8 +3,8 @@
  *
  * A polished, themeable layer on top of the WordPress settings UI. Tokens live
  * under --marks-a-* so the look can be tuned in one place. Transitions are gated
- * behind prefers-reduced-motion and colours adapt to the admin colour scheme via
- * prefers-color-scheme.
+ * behind prefers-reduced-motion and colours follow the page's color-scheme via
+ * light-dark(), with prefers-color-scheme as the fallback for older browsers.
  */
 
 .marks-admin {
@@ -262,19 +262,43 @@
 	}
 }
 
-@media (prefers-color-scheme: dark) {
+/* Dark styling follows the page's color-scheme (set by the theme), not the
+   visitor's OS. Tokens sit in @supports: a custom property is never dropped
+   at parse time, so an unsupported light-dark() would blank every use site. */
+@supports (color: light-dark(white, black)) {
 	.marks-admin {
 		/* Lightened vermilion keeps the family accent above the AA UI floor on
 		   the dark card: #e8543f vs #1e1e1e = 4.58:1. */
-		--marks-a-accent: #e8543f;
-		--marks-a-card-bg: #1e1e1e;
-		--marks-a-card-border: #3c434a;
-		--marks-a-muted: #a7aaad;
+		--marks-a-accent: light-dark(#c52d1a, #e8543f);
+		--marks-a-card-bg: light-dark(#fff, #1e1e1e);
+		--marks-a-card-border: light-dark(#dcdcde, #3c434a);
+		--marks-a-muted: light-dark(#646970, #a7aaad);
 	}
 
+	/* The base checker shorthand above is invalid (size without a position), so
+	   browsers drop it and the stage is transparent; dark was a flat #2c3338.
+	   The border already follows --marks-a-card-border (#3c434a on dark). */
 	.marks-preview__stage {
-		background: #2c3338;
-		border-color: #3c434a;
+		background-color: light-dark(transparent, #2c3338);
+	}
+}
+
+/* Browsers without light-dark() keep the previous OS-based dark pass. */
+@supports not (color: light-dark(white, black)) {
+	@media (prefers-color-scheme: dark) {
+		.marks-admin {
+			/* Lightened vermilion keeps the family accent above the AA UI floor on
+			   the dark card: #e8543f vs #1e1e1e = 4.58:1. */
+			--marks-a-accent: #e8543f;
+			--marks-a-card-bg: #1e1e1e;
+			--marks-a-card-border: #3c434a;
+			--marks-a-muted: #a7aaad;
+		}
+
+		.marks-preview__stage {
+			background: #2c3338;
+			border-color: #3c434a;
+		}
 	}
 }
 

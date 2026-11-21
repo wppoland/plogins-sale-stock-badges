@@ -260,14 +260,34 @@ li.wc-block-product {
 }
 
 /* Honour dark themes: deepen the ink and lift the contact shadow so stamped
-   labels stay legible against dark product backdrops. */
-@media (prefers-color-scheme: dark) {
+   labels stay legible against dark product backdrops. Follows the page's
+   color-scheme (set by the theme), not the visitor's OS. Tokens sit in
+   @supports: a custom property is never dropped at parse time, so an
+   unsupported light-dark() would blank every use site. */
+@supports (color: light-dark(white, black)) {
 	.marks-badges {
-		--marks-ink: #cf2d15;
-		--marks-ink-deep: #b3260f;
-		--marks-bg-neutral: #3c434a;
+		--marks-ink: light-dark(#c52d1a, #cf2d15);
+		--marks-ink-deep: light-dark(#a8240f, #b3260f);
+		--marks-bg-neutral: light-dark(#2c3338, #3c434a);
+		/* Light lift is 5px blur, dark 6px: one layer per scheme, the other
+		   transparent, so both keep their exact shadow. */
 		--marks-shadow:
-			0 1px 0 rgba(0, 0, 0, 0.4),
-			0 2px 6px rgba(0, 0, 0, 0.5);
+			0 1px 0 light-dark(rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.4)),
+			0 2px 5px light-dark(rgba(0, 0, 0, 0.22), transparent),
+			0 2px 6px light-dark(transparent, rgba(0, 0, 0, 0.5));
+	}
+}
+
+/* Browsers without light-dark() keep the previous OS-based pass. */
+@supports not (color: light-dark(white, black)) {
+	@media (prefers-color-scheme: dark) {
+		.marks-badges {
+			--marks-ink: #cf2d15;
+			--marks-ink-deep: #b3260f;
+			--marks-bg-neutral: #3c434a;
+			--marks-shadow:
+				0 1px 0 rgba(0, 0, 0, 0.4),
+				0 2px 6px rgba(0, 0, 0, 0.5);
+		}
 	}
 }

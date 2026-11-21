@@ -4,7 +4,7 @@ Tags: woocommerce, product badges, sale badge, new badge, low stock
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.1.6
+Stable tag: 1.1.7
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -140,6 +140,9 @@ The plugin stores its configuration in two WordPress options (`marks_settings` a
 Sale & Stock Badges is fully translatable and ships the `plogins-sale-stock-badges.pot` template. Translations are delivered by WordPress.org language packs from translate.wordpress.org, which is where Polish, German and Spanish are being contributed; the package itself carries no compiled translation files.
 
 == Changelog ==
+
+= 1.1.7 =
+* Changed: dark styling follows the theme's color scheme instead of the visitor's operating system, so widgets stay light on light themes; older browsers keep the previous behaviour.
 
 = 1.1.6 =
 * Changed: the badge preview in the settings screen now empties itself without re-parsing HTML. No visible change.
