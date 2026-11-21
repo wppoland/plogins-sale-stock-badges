@@ -159,7 +159,7 @@
 		var emptyEl = root.querySelector( '.marks-preview__empty' );
 
 		if ( html === '' ) {
-			preview.innerHTML = '';
+			preview.replaceChildren();
 			if ( emptyEl ) {
 				emptyEl.hidden = false;
 			}
