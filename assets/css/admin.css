@@ -156,8 +156,8 @@
 	background:
 		linear-gradient(45deg, #f0f0f1 25%, transparent 25%) -8px 0 / 16px 16px,
 		linear-gradient(-45deg, #f0f0f1 25%, transparent 25%) -8px 0 / 16px 16px,
-		linear-gradient(45deg, transparent 75%, #f0f0f1 75%) / 16px 16px,
-		linear-gradient(-45deg, transparent 75%, #f0f0f1 75%) / 16px 16px,
+		linear-gradient(45deg, transparent 75%, #f0f0f1 75%) 0 0 / 16px 16px,
+		linear-gradient(-45deg, transparent 75%, #f0f0f1 75%) 0 0 / 16px 16px,
 		#fff;
 	border: 1px dashed var(--marks-a-card-border);
 	border-radius: var(--marks-a-radius-sm);
